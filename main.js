@@ -1,5 +1,11 @@
 "use strict";
 
+/* 
+	Definitions;
+	1. Number = operand = opr
+	2. Operator = op
+*/
+
 /*
 	Precedence table for operators.
 	Higher the number, greater the precedence.
@@ -30,7 +36,7 @@ const NUM_REGEX = /\d+\.?\d*/,
 	OP_REGEX = /[\+\-\*\/\^]/,
 	PAR_REGEX = /[\(\)]/;
 
-const tokenIsDigit = (token) => NUM_REGEX.test(token);
+const tokenIsOpr = (token) => NUM_REGEX.test(token);
 const tokenIsOp = (token) => OP_REGEX.test(token);
 
 /* 
@@ -45,7 +51,7 @@ const comparePrecedence = (token, opStackTop) => {
 	return Math.sign(comparison);
 };
 
-/* Perform an operation (op) on operand 1 (opr1) and operand 2 (opr2). */
+/* Perform the operator (op) on operand 1 (opr1) and operand 2 (opr2). */
 const evaluate = (opr1, opr2, op) => {
 	/* Convert operands from strings to integers. */
 	opr1 = parseFloat(opr1);
@@ -65,7 +71,7 @@ const evaluate = (opr1, opr2, op) => {
 	}
 };
 
-/* Return an array of all numbers, operators and parenthesis extracted from the input using a regex.*/
+/* Return an array of all operands, operators and parenthesis extracted from the input using a regex.*/
 const parseInput = (input) =>
 	input.match(
 		new RegExp(
@@ -83,8 +89,8 @@ const parseInfix = (infix) => {
 		let token = infix[i];
 		i++;
 
-		if (tokenIsDigit(token)) {
-			/* Digits are directly pushed into outStack. */
+		if (tokenIsOpr(token)) {
+			/* Operands are directly pushed into outStack. */
 			outStack.push(token);
 		} else if (token === "(") {
 			/* ")" is directly pushed into opStack. */
@@ -101,7 +107,7 @@ const parseInfix = (infix) => {
 				opStackTop = opStack.pop();
 			}
 		} else if (tokenIsOp(token)) {
-			/* Compare the precedence of the operator token (token) and opStackTop */
+			/* Compare the precedence of the operator (token) and opStackTop */
 			let opStackTop = opStack[opStack.length - 1],
 				precComparison = comparePrecedence(token, opStackTop);
 
@@ -144,12 +150,12 @@ const evalPostfix = (postfix) => {
 		let token = postfix[i];
 		i++;
 
-		if (tokenIsDigit(token)) {
-			/* Push numbers into workingStack. */
+		if (tokenIsOpr(token)) {
+			/* Push operands into workingStack. */
 			workingStack.push(token);
 		} else if (tokenIsOp(token)) {
 			/* 
-			When an operator is found, pop out 2 numbers (opr2, opr1) from workingStack, and evalute the 2 numbers against the operand. 
+			When an operator is found, pop out 2 operands (opr2, opr1) from workingStack, and evalute the 2 operands against the operator. 
 			Push the result back into workingStack. 
 			*/
 			const opr2 = workingStack.pop(), // Operand 2 pops out first
