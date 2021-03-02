@@ -45,6 +45,26 @@ const comparePrecedence = (token, opStackTop) => {
 	return Math.sign(comparison);
 };
 
+/* Perform an operation (op) on operand 1 (opr1) and operand 2 (opr2). */
+const evaluate = (opr1, opr2, op) => {
+	/* Convert operands from strings to integers. */
+	opr1 = parseFloat(opr1);
+	opr2 = parseFloat(opr2);
+
+	switch (op) {
+		case "^":
+			return opr1 ** opr2;
+		case "/":
+			return opr1 / opr2;
+		case "*":
+			return opr1 * opr2;
+		case "+":
+			return opr1 + opr2;
+		case "-":
+			return opr1 - opr2;
+	}
+};
+
 /* Return an array of all numbers, operators and parenthesis extracted from the input using a regex.*/
 const parseInput = (input) =>
 	input.match(
@@ -55,7 +75,6 @@ const parseInput = (input) =>
 	);
 
 const parseInfix = (infix) => {
-	// Stack format: [0] (bottom) -----> [length - 1] (top)
 	let outStack = [],
 		opStack = [];
 
@@ -118,13 +137,42 @@ const parseInfix = (infix) => {
 	return outStack; // final postfix
 };
 
+const evalPostfix = (postfix) => {
+	let workingStack = [],
+		i = 0;
+	while (i < postfix.length) {
+		let token = postfix[i];
+		i++;
+
+		if (tokenIsDigit(token)) {
+			/* Push numbers into workingStack. */
+			workingStack.push(token);
+		} else if (tokenIsOp(token)) {
+			/* 
+			When an operator is found, pop out 2 numbers (opr2, opr1) from workingStack, and evalute the 2 numbers against the operand. 
+			Push the result back into workingStack. 
+			*/
+			const opr2 = workingStack.pop(), // Operand 2 pops out first
+				opr1 = workingStack.pop();
+			const result = evaluate(opr1, opr2, token);
+			workingStack.push(result);
+		}
+	}
+
+	/* workingStack will finally have only 1 element, i.e. the final result. */
+	return workingStack[0];
+};
+
 const main = () => {
 	const input = document.getElementById("exp").value;
 	const infix = parseInput(input);
 	const postfix = parseInfix(infix);
+	const result = evalPostfix(postfix);
 
 	console.log("Infix: ", infix);
 	console.log("Postfix: ", postfix);
+	console.log("Result: ", result);
+	document.getElementById("result").innerHTML = result;
 };
 
 document.getElementById("run").addEventListener("click", main);
