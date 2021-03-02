@@ -3,7 +3,6 @@
 /*
 	Precedence table for operators.
 	Higher the number, greater the precedence.
-	The reason for "(" having least precedence is explained further along.
 */
 const PRECEDENCE = {
 	"^": 3,
@@ -27,8 +26,12 @@ const ASSOCIATION = {
 	"-": LEFT_ASSOCIATION
 };
 
-const tokenIsDigit = (token) => /\d+/.test(token);
-const tokenIsOp = (token) => /[\+\-\*\/\^]/.test(token);
+const NUM_REGEX = /\d+\.?\d*/,
+	OP_REGEX = /[\+\-\*\/\^]/,
+	PAR_REGEX = /[\(\)]/;
+
+const tokenIsDigit = (token) => NUM_REGEX.test(token);
+const tokenIsOp = (token) => OP_REGEX.test(token);
 
 /* 
 	Compares the precedence of two operators op1 and op2.
@@ -42,8 +45,14 @@ const comparePrecedence = (token, opStackTop) => {
 	return Math.sign(comparison);
 };
 
-const input = "3 + 4 * 2 / ( 1 - 5 ) ^ 2 ^ 3";
-const infix = input.split(" ");
+/* Use a regex to captures all numbers, operators and parenthesis from the input into the infix array.*/
+const input = document.getElementById("exp").value;
+const infix = input.match(
+	new RegExp(
+		`${NUM_REGEX.source}|${OP_REGEX.source}|${PAR_REGEX.source}`,
+		"g"
+	)
+);
 
 // Stack format: [0] (bottom) -----> [length - 1] (top)
 let outStack = [],
