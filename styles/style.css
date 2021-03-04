@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* ===========
+	Typography
+   ===========  */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #e7e7e7;
+}
+
+.exp,
+.res {
+  font-weight: 600;
+  -webkit-transition: font-size 100ms linear;
+  transition: font-size 100ms linear;
+}
+
+.exp,
+.res-trns {
+  font-size: 2.75rem;
+}
+
+.res,
+.exp-trns {
+  font-size: 1.75rem;
+}
+
+.res-trns {
+  color: #82aaeb;
+}
+
+.oprs {
+  font-size: 1.75rem;
+}
+
+.ops,
+.accs {
+  font-size: 1.35rem;
+  color: #82aaeb;
+}
+
+/* ===========
+	Layout
+   ===========  */
+.calc {
+  background-color: #212226;
+  width: 450px;
+  height: 600px;
+  margin: 60px auto;
+  border-radius: 30px;
+  padding: 6px 6px 0 6px;
+  overflow: hidden;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1.75fr 1fr 4fr;
+      grid-template-rows: 1.75fr 1fr 4fr;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-areas: "display display display display" "accs accs accs ops" "oprs oprs oprs ops";
+}
+
+.display {
+  background-color: #2c2f34;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 4;
+  grid-area: display;
+  border-radius: 24px 24px 0 0;
+  padding: 0 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.accs > *,
+.oprs > *,
+.ops > * {
+  padding: 0.3em 0.75em;
+  cursor: pointer;
+}
+
+.accs {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-area: accs;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.oprs {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 3;
+  grid-area: oprs;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (1fr)[4];
+  -ms-grid-columns: (1fr)[3];
+      grid-template: repeat(4, 1fr)/repeat(3, 1fr);
+  place-items: center center;
+}
+
+.ops {
+  -ms-grid-row: 2;
+  -ms-grid-row-span: 2;
+  -ms-grid-column: 4;
+  grid-area: ops;
+  border-left: #2c2f34 solid 2px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+/*# sourceMappingURL=style.css.map */

@@ -5,26 +5,46 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Document</title>
+		<link rel="stylesheet" href="./styles/style.css" />
 		<!-- Disable favicon warning -->
 		<link rel="icon" href="data:;base64,=" />
 	</head>
 	<body>
-		<input
-			type="text"
-			id="exp"
-			style="display: block; width: 30em; font-size: 25px"
-		/>
-		<button id="run" style="font-size: 16px; margin-top: 0.75em">
-			Run
-		</button>
-		<span
-			id="result"
-			style="
-				margin-left: 17em;
-				font-size: 25px;
-				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			"
-		></span>
-		<script src="main.js"></script>
+		<div class="calc">
+			<div class="display">
+				<h2 class="exp">EXP</h2>
+				<h3 class="res">RES</h3>
+			</div>
+			<div class="oprs">
+				<div class="js-input" value="7"><span>7</span></div>
+				<div class="js-input" value="8"><span>8</span></div>
+				<div class="js-input" value="9"><span>9</span></div>
+				<div class="js-input" value="4"><span>4</span></div>
+				<div class="js-input" value="5"><span>5</span></div>
+				<div class="js-input" value="6"><span>6</span></div>
+				<div class="js-input" value="1"><span>1</span></div>
+				<div class="js-input" value="2"><span>2</span></div>
+				<div class="js-input" value="3"><span>3</span></div>
+				<div class="js-input" value="."><span>.</span></div>
+				<div class="js-input" value="0"><span>0</span></div>
+				<div class="js-eval"><span>=</span></div>
+			</div>
+			<div class="ops">
+				<div class="js-input" value="^"><span>^</span></div>
+				<div class="js-input" value="+"><span>+</span></div>
+				<div class="js-input" value="-"><span>−</span></div>
+				<div class="js-input" value="*"><span>×</span></div>
+				<div class="js-input" value="/"><span>÷</span></div>
+			</div>
+			<div class="accs">
+				<div class="js-input" value="("><span>(</span></div>
+				<div class="js-input" value=")"><span>)</span></div>
+				<div class="js-c"><span>C</span></div>
+				<div class="js-bksp"><span>⌫</span></div>
+			</div>
+		</div>
+
+		<script src="ui.js"></script>
+		<!-- <script src="main.js"></script> -->
 	</body>
 </html>

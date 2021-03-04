@@ -1,0 +1,111 @@
+$white: #e7e7e7;
+$light-gray: #2c2f34;
+$dark-gray: #212226;
+$blue: #82aaeb;
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* ===========
+	Typography
+   ===========  */
+
+body {
+	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+	color: $white;
+}
+
+.exp,
+.res {
+	font-weight: 600;
+	transition: font-size 100ms linear;
+}
+
+.exp,
+.res-trns {
+	font-size: 2.75rem;
+}
+
+.res,
+.exp-trns {
+	font-size: 1.75rem;
+}
+
+.res-trns {
+	color: $blue;
+}
+
+.oprs {
+	font-size: 1.75rem;
+}
+
+.ops,
+.accs {
+	font-size: 1.35rem;
+	color: $blue;
+}
+
+/* ===========
+	Layout
+   ===========  */
+
+.calc {
+	background-color: $dark-gray;
+	width: 450px;
+	height: 600px;
+	margin: 60px auto;
+	border-radius: 30px;
+	padding: 6px 6px 0 6px;
+	overflow: hidden;
+
+	display: grid;
+	grid-template-rows: 1.75fr 1fr 4fr;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-areas:
+		"display display display display"
+		"accs accs accs ops"
+		"oprs oprs oprs ops";
+}
+
+.display {
+	background-color: $light-gray;
+	grid-area: display;
+	border-radius: 24px 24px 0 0;
+	padding: 0 15px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
+.accs > *,
+.oprs > *,
+.ops > * {
+	padding: 0.3em 0.75em;
+	cursor: pointer;
+}
+
+.accs {
+	grid-area: accs;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.oprs {
+	grid-area: oprs;
+	display: grid;
+	grid-template: repeat(4, 1fr) / repeat(3, 1fr);
+	place-items: center center;
+}
+
+.ops {
+	grid-area: ops;
+	border-left: $light-gray solid 2px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
