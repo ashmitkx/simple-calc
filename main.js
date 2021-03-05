@@ -1,5 +1,10 @@
 "use strict";
 
+/*	=============
+	Backend Code
+	=============
+*/
+
 /* 
 	Definitions;
 	1. Number = operand = opr
@@ -169,8 +174,7 @@ const evalPostfix = (postfix) => {
 	return workingStack[0];
 };
 
-const main = () => {
-	const input = document.getElementById("exp").value;
+const evalInput = (input) => {
 	const infix = parseInput(input);
 	const postfix = parseInfix(infix);
 	const result = evalPostfix(postfix);
@@ -178,7 +182,75 @@ const main = () => {
 	console.log("Infix: ", infix);
 	console.log("Postfix: ", postfix);
 	console.log("Result: ", result);
-	document.getElementById("result").innerHTML = result;
+
+	return result;
 };
 
-document.getElementById("run").addEventListener("click", main);
+/*	=============
+	Frontend Code
+	=============
+*/
+
+const INPUT_KEYS = document.querySelectorAll(".js-input"),
+	BKSP_KEY = document.querySelector(".js-bksp"),
+	C_KEY = document.querySelector(".js-c"),
+	EVAL_KEY = document.querySelector(".js-eval"),
+	EXP_DISPLAY = document.querySelector(".exp"),
+	RES_DISPLAY = document.querySelector(".res");
+
+let inputToEval = "",
+	inputToDisplay = "",
+	t; // TODO: Remove
+
+/* 
+	Append the value attribute of the pressed key into inputToEval.
+	Append the text of the pressed key into inputToDisplay.
+*/
+const inputKeyPress = function () {
+	t = this;
+	inputToEval += this.getAttribute("value");
+	inputToDisplay += this.innerText;
+	updateExpDisplay(inputToDisplay);
+};
+
+/* Remove the last character from inputToEval and inputToDisplay. */
+const bkspKeyPress = () => {
+	inputToEval = inputToEval.slice(0, -1);
+	inputToDisplay = inputToDisplay.slice(0, -1);
+	updateExpDisplay(inputToDisplay);
+};
+
+/* Clear inputToEval and inputToDisplay. */
+const cKeyPress = () => {
+	inputToEval = "";
+	inputToDisplay = "";
+	updateExpDisplay(inputToDisplay);
+	updateResDisplay("");
+};
+
+/* 
+	Evaluate inputToEval.
+	Also trigger a font-size transition by updating classLists. 	
+*/
+const evalKeyPress = function () {
+	const result = evalInput(inputToEval);
+	updateResDisplay(result);
+	EXP_DISPLAY.classList.add("exp-trns");
+	RES_DISPLAY.classList.add("res-trns");
+};
+
+/* Updates the Expression display with text. */
+const updateExpDisplay = (text) => {
+	EXP_DISPLAY.innerHTML = text;
+};
+
+/* Updates the Result display with text. */
+const updateResDisplay = (text) => {
+	RES_DISPLAY.innerHTML = text;
+};
+
+/* Click Event Listeners. */
+INPUT_KEYS.forEach((key) => key.addEventListener("click", inputKeyPress));
+BKSP_KEY.addEventListener("click", bkspKeyPress);
+C_KEY.addEventListener("click", cKeyPress);
+EVAL_KEY.addEventListener("click", evalKeyPress);
