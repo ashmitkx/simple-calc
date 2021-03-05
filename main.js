@@ -58,10 +58,6 @@ const comparePrecedence = (token, opStackTop) => {
 
 /* Perform the operator (op) on operand 1 (opr1) and operand 2 (opr2). */
 const evaluate = (opr1, opr2, op) => {
-	/* Convert operands from strings to integers. */
-	opr1 = parseFloat(opr1);
-	opr2 = parseFloat(opr2);
-
 	switch (op) {
 		case "^":
 			return opr1 ** opr2;
@@ -95,8 +91,8 @@ const parseInfix = (infix) => {
 		i++;
 
 		if (tokenIsOpr(token)) {
-			/* Operands are directly pushed into outStack. */
-			outStack.push(token);
+			/* Operands are converted from strings to numbers, and directly pushed into outStack. */
+			outStack.push(parseFloat(token));
 		} else if (token === "(") {
 			/* ")" is directly pushed into opStack. */
 			opStack.push(token);
@@ -200,57 +196,93 @@ const INPUT_KEYS = document.querySelectorAll(".js-input"),
 
 let inputToEval = "",
 	inputToDisplay = "",
-	t; // TODO: Remove
+	result = 0;
+
+/* Updates EXP_DISPLAY with text. */
+const updateExpDisplay = (text) => {
+	EXP_DISPLAY.innerHTML = text;
+};
+
+/* Updates RES_DISPLAY with text. */
+const updateResDisplay = (text) => {
+	RES_DISPLAY.innerHTML = text;
+};
+
+/* 
+	Resets the entire calculator display by: 
+	1. Clearing EXP_DISPLAY, or setting it to an inital value.
+	2. Clearing RES_DISPLAY, by calling resetResDisplay().
+*/
+const resetDisplay = (initial = "") => {
+	inputToEval = initial;
+	inputToDisplay = initial;
+	updateExpDisplay(inputToDisplay);
+	resetResDisplay();
+};
+
+/* Clears RES_DISPLAY. */
+const resetResDisplay = () => {
+	updateResDisplay("");
+	undoTrans();
+};
+
+/* Triggers the font-size transition by add to classLists. */
+const trigTrans = () => {
+	EXP_DISPLAY.classList.add("exp-trns");
+	RES_DISPLAY.classList.add("res-trns");
+};
+
+/* Undoes the font-size transition by removing from classLists. */
+const undoTrans = () => {
+	EXP_DISPLAY.classList.remove("exp-trns");
+	RES_DISPLAY.classList.remove("res-trns");
+};
 
 /* 
 	Append the value attribute of the pressed key into inputToEval.
 	Append the text of the pressed key into inputToDisplay.
+	
+	If RES_DISPLAY has any text inside it, reset the entire calculator display with the result being shown by RES_DISPLAY.
+	This allows the user to re-use the result they had last calculated.
 */
 const inputKeyPress = function () {
-	t = this;
+	if (RES_DISPLAY.innerText) resetDisplay(result);
+
 	inputToEval += this.getAttribute("value");
 	inputToDisplay += this.innerText;
 	updateExpDisplay(inputToDisplay);
 };
 
-/* Remove the last character from inputToEval and inputToDisplay. */
+/* 
+	Remove the last character from inputToEval and inputToDisplay.
+	
+	If RES_DISPLAY has any text inside it, reset the result display.
+	This hides the result while the user edits the entered expression.
+*/
 const bkspKeyPress = () => {
+	if (RES_DISPLAY.innerText) resetResDisplay();
+
 	inputToEval = inputToEval.slice(0, -1);
 	inputToDisplay = inputToDisplay.slice(0, -1);
 	updateExpDisplay(inputToDisplay);
 };
 
-/* Clear inputToEval and inputToDisplay. */
-const cKeyPress = () => {
-	inputToEval = "";
-	inputToDisplay = "";
-	updateExpDisplay(inputToDisplay);
-	updateResDisplay("");
-};
-
-/* 
-	Evaluate inputToEval.
-	Also trigger a font-size transition by updating classLists. 	
-*/
+/* Evaluate inputToEval using the Backend Code. */
 const evalKeyPress = function () {
-	const result = evalInput(inputToEval);
+	result = evalInput(inputToEval);
 	updateResDisplay(result);
-	EXP_DISPLAY.classList.add("exp-trns");
-	RES_DISPLAY.classList.add("res-trns");
+	trigTrans();
 };
 
-/* Updates the Expression display with text. */
-const updateExpDisplay = (text) => {
-	EXP_DISPLAY.innerHTML = text;
-};
-
-/* Updates the Result display with text. */
-const updateResDisplay = (text) => {
-	RES_DISPLAY.innerHTML = text;
-};
-
-/* Click Event Listeners. */
+/* Click-Event Listeners. */
 INPUT_KEYS.forEach((key) => key.addEventListener("click", inputKeyPress));
 BKSP_KEY.addEventListener("click", bkspKeyPress);
-C_KEY.addEventListener("click", cKeyPress);
+C_KEY.addEventListener("click", () => resetDisplay());
 EVAL_KEY.addEventListener("click", evalKeyPress);
+
+/* 
+	TODO:
+	1. Add support for -ve numbers.
+	2. Add the ability to change operators without using BKSP_KEY.
+	3. Fix diplay oveflows (make EXP_DISPLAY an <input> ?).
+*/
