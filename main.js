@@ -9,6 +9,7 @@
 	Definitions;
 	1. Number = operand = opr
 	2. Operator = op
+	3. Parenthesis = par
 */
 
 /*
@@ -37,9 +38,17 @@ const ASSOCIATION = {
 	"-": LEFT_ASSOCIATION
 };
 
-const NUM_REGEX = /\d+\.?\d*/,
-	OP_REGEX = /[\+\-\*\/\^]/,
-	PAR_REGEX = /[\(\)]/;
+const OP_REGEX = /[\+\-\*\/\^]/,
+	PAR_REGEX = /[\(\)]/,
+	/* Captures absolute values of numbers. */
+	ABS_NUM_REGEX = /\d+\.?\d*/,
+	/* 
+		Captures actual values of numbers. 
+		The pattern before the | is to capture the first digit's minus sign, if its negative, since it wont have any operators before its minus sign.
+	*/
+	NUM_REGEX = new RegExp(
+		`^-?${ABS_NUM_REGEX.source}|(?<=${OP_REGEX.source}|${PAR_REGEX.source})-?${ABS_NUM_REGEX.source}`
+	);
 
 const tokenIsOpr = (token) => NUM_REGEX.test(token);
 const tokenIsOp = (token) => OP_REGEX.test(token);
@@ -81,6 +90,7 @@ const parseInput = (input) =>
 		)
 	);
 
+/* Shunting Yard Algorithm. */
 const parseInfix = (infix) => {
 	let outStack = [],
 		opStack = [];
@@ -279,10 +289,3 @@ INPUT_KEYS.forEach((key) => key.addEventListener("click", inputKeyPress));
 BKSP_KEY.addEventListener("click", bkspKeyPress);
 C_KEY.addEventListener("click", () => resetDisplay());
 EVAL_KEY.addEventListener("click", evalKeyPress);
-
-/* 
-	TODO:
-	1. Add support for -ve numbers.
-	2. Add the ability to change operators without using BKSP_KEY.
-	3. Fix diplay oveflows (make EXP_DISPLAY an <input> ?).
-*/
