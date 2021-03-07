@@ -96,13 +96,6 @@ body {
 	scrollbar-width: thin;
 }
 
-.accs > *,
-.oprs > *,
-.ops > * {
-	padding: 0.3em 0.75em;
-	cursor: pointer;
-}
-
 .accs {
 	grid-area: accs;
 	display: flex;
@@ -124,4 +117,14 @@ body {
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
+}
+
+.key {
+	cursor: pointer;
+	padding: 0.5em 1em;
+	border-radius: 50px;
+
+	&:active {
+		background-color: change-color($color: $light-gray, $alpha: 0.65);
+	}
 }

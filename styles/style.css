@@ -101,13 +101,6 @@ body {
   scrollbar-width: thin;
 }
 
-.accs > *,
-.oprs > *,
-.ops > * {
-  padding: 0.3em 0.75em;
-  cursor: pointer;
-}
-
 .accs {
   -ms-grid-row: 2;
   -ms-grid-column: 1;
@@ -154,5 +147,15 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.key {
+  cursor: pointer;
+  padding: 0.5em 1em;
+  border-radius: 50px;
+}
+
+.key:active {
+  background-color: rgba(44, 47, 52, 0.65);
 }
 /*# sourceMappingURL=style.css.map */
