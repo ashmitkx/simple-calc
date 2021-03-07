@@ -75,11 +75,12 @@ body {
 }
 
 .display {
-  background-color: #2c2f34;
   -ms-grid-row: 1;
   -ms-grid-column: 1;
   -ms-grid-column-span: 4;
   grid-area: display;
+  background-color: #2c2f34;
+  width: 100%;
   border-radius: 24px 24px 0 0;
   padding: 15px;
   display: -webkit-box;
@@ -92,6 +93,12 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.exp,
+.res {
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 
 .accs > *,
@@ -126,7 +133,7 @@ body {
   -ms-grid-rows: (1fr)[4];
   -ms-grid-columns: (1fr)[3];
       grid-template: repeat(4, 1fr)/repeat(3, 1fr);
-  place-items: center center;
+  place-items: center;
 }
 
 .ops {

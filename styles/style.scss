@@ -80,13 +80,20 @@ body {
 }
 
 .display {
-	background-color: $light-gray;
 	grid-area: display;
+	background-color: $light-gray;
+	width: 100%;
 	border-radius: 24px 24px 0 0;
 	padding: 15px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+}
+
+.exp,
+.res {
+	overflow-x: auto;
+	scrollbar-width: thin;
 }
 
 .accs > *,
@@ -107,7 +114,7 @@ body {
 	grid-area: oprs;
 	display: grid;
 	grid-template: repeat(4, 1fr) / repeat(3, 1fr);
-	place-items: center center;
+	place-items: center;
 }
 
 .ops {

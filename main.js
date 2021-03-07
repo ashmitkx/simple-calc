@@ -277,9 +277,13 @@ const bkspKeyPress = () => {
 	updateExpDisplay(inputToDisplay);
 };
 
-/* Evaluate inputToEval using the Backend Code. */
+/* 
+	Evaluate inputToEval using the Backend Code.
+	The result is rounded to have a maxmimum of 8 digits after the decimal point.
+*/
 const evalKeyPress = function () {
 	result = evalInput(inputToEval);
+	result = Math.round((result + Number.EPSILON) * 10e8) / 10e8;
 	updateResDisplay(result);
 	trigTrans();
 };
